@@ -356,17 +356,17 @@ const AdminPanel = () => {
               value={editTrack.artist}
               onChange={(e) => setEditTrack({ ...editTrack, artist: e.target.value })}
             />
-            <select
-              value={editTrack.genre}
-              onChange={(e) => setEditTrack({ ...editTrack, genre: e.target.value })}
-            >
-              <option value="">Выберите жанр</option>
-              <option value="Pop">Поп</option>
-              <option value="Hip-Hop">Хип-Хоп</option>
-              <option value="Ambient">Ambient</option>
-              <option value="Indie">Инди</option>
-              <option value="Lo-Fi">Lo-Fi</option>
-            </select>
+          <select
+            value={editTrack.genre}
+            onChange={(e) => setEditTrack({ ...editTrack, genre: e.target.value })}
+          >
+            <option value="">Выберите жанр</option>
+            <option value="Pop">Поп</option>
+            <option value="Hip-Hop">Хип-Хоп</option>
+            <option value="Ambient">Ambient</option>  
+            <option value="Indie">Инди</option>
+            <option value="Lo-Fi">Lo-Fi</option>
+          </select>
             <div className="file-input">
               <label>Новая обложка (опционально):</label>
               <input

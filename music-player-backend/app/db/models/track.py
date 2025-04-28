@@ -7,9 +7,9 @@ import enum
 class Genre(str, enum.Enum):
     POP = "Pop"
     HIPHOP = "Hip-Hop"
-    ROCK = "Ambient"
+    AMBIENT = "Ambient"
     INDIE = "Indie"
-    RNB = "Lo-Fi"
+    LOFI = "Lo-Fi"
 
 class Track(Base, BaseModel):
     __tablename__ = "tracks"

@@ -142,7 +142,16 @@ def create_track(
         )
 
     try:
-        track_genre = Genre[genre.upper()]
+        # Проверяем, является ли genre строкой со значением перечисления
+        if genre in [g.value for g in Genre]:
+            # Находим ключ перечисления по значению
+            for g in Genre:
+                if g.value == genre:
+                    track_genre = g
+                    break
+        else:
+            # Если не нашли, пробуем определить по ключу
+            track_genre = Genre[genre.upper()]
     except KeyError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
