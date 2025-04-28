@@ -34,12 +34,15 @@ def get_tracks(
     page: int = Query(1, ge=1),
     size: int = Query(20, ge=1, le=100),
 ) -> Any:
+    # Делаем этот эндпоинт общедоступным (не требуя авторизации)
     query = db.query(Track)
 
     if genre:
         try:
-            query = query.filter(Track.genre == Genre[genre.upper()])
-        except KeyError:
+            # Используем новый метод для преобразования строки в жанр
+            genre_enum = Genre.from_string(genre)
+            query = query.filter(Track.genre == genre_enum)
+        except (KeyError, ValueError):
             return {
                 "items": [],
                 "total": 0,
@@ -78,6 +81,7 @@ def get_track(
     track_id: int,
     current_user: Optional[User] = Depends(get_current_user),
 ) -> Any:
+    # Делаем этот эндпоинт общедоступным (не требуя авторизации)
     track = db.query(Track).filter(Track.id == track_id).first()
     if not track:
         raise HTTPException(status_code=404, detail="Track not found")
@@ -142,17 +146,9 @@ def create_track(
         )
 
     try:
-        # Проверяем, является ли genre строкой со значением перечисления
-        if genre in [g.value for g in Genre]:
-            # Находим ключ перечисления по значению
-            for g in Genre:
-                if g.value == genre:
-                    track_genre = g
-                    break
-        else:
-            # Если не нашли, пробуем определить по ключу
-            track_genre = Genre[genre.upper()]
-    except KeyError:
+        # Используем новый метод для преобразования строки в жанр
+        track_genre = Genre.from_string(genre)
+    except ValueError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Invalid genre. Allowed genres: {', '.join([g.value for g in Genre])}"
@@ -196,112 +192,3 @@ def create_track(
     db.refresh(track)
 
     return track
-
-@router.put("/{track_id}", response_model=TrackSchema)
-def update_track(
-    *,
-    db: Session = Depends(get_db),
-    track_id: int,
-    current_user: User = Depends(get_current_admin_user),
-    title: Optional[str] = Form(None),
-    artist: Optional[str] = Form(None),
-    genre: Optional[str] = Form(None),
-    duration: Optional[float] = Form(None),
-    cover: Optional[UploadFile] = File(None),
-    audio: Optional[UploadFile] = File(None),
-) -> Any:
-
-    track = db.query(Track).filter(Track.id == track_id).first()
-    if not track:
-        raise HTTPException(status_code=404, detail="Track not found")
-
-    if title is not None:
-        track.title = title
-
-    if artist is not None:
-        track.artist = artist
-
-    if genre is not None:
-        try:
-            track.genre = Genre[genre.upper()]
-        except KeyError:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid genre. Allowed genres: {', '.join([g.value for g in Genre])}"
-            )
-
-    if duration is not None:
-        track.duration = duration
-
-    if cover:
-        if not validate_file_extension(cover.filename, settings.ALLOWED_COVER_EXTENSIONS):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid cover file format. Allowed formats: {', '.join(settings.ALLOWED_COVER_EXTENSIONS)}"
-            )
-
-        cover_filename = f"{uuid.uuid4()}.{cover.filename.split('.')[-1].lower()}"
-        cover_path = os.path.join(settings.COVERS_DIR, cover_filename)
-
-        cover_full_path = os.path.join(settings.MEDIA_ROOT, cover_path)
-        with open(cover_full_path, "wb") as buffer:
-            shutil.copyfileobj(cover.file, buffer)
-
-        old_cover_path = os.path.join(settings.MEDIA_ROOT, track.cover_path.replace("/media/", ""))
-        if os.path.exists(old_cover_path):
-            os.remove(old_cover_path)
-
-        track.cover_path = f"/media/{cover_path}"
-
-    if audio:
-        if not validate_file_extension(audio.filename, settings.ALLOWED_TRACK_EXTENSIONS):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Invalid audio file format. Allowed formats: {', '.join(settings.ALLOWED_TRACK_EXTENSIONS)}"
-            )
-
-        audio_filename = f"{uuid.uuid4()}.{audio.filename.split('.')[-1].lower()}"
-        audio_path = os.path.join(settings.TRACKS_DIR, audio_filename)
-
-        audio_full_path = os.path.join(settings.MEDIA_ROOT, audio_path)
-        with open(audio_full_path, "wb") as buffer:
-            shutil.copyfileobj(audio.file, buffer)
-
-        old_audio_path = os.path.join(settings.MEDIA_ROOT, track.audio_path.replace("/media/", ""))
-        if os.path.exists(old_audio_path):
-            os.remove(old_audio_path)
-
-        track.audio_path = f"/media/{audio_path}"
-
-    db.commit()
-    db.refresh(track)
-
-    return track
-
-@router.delete("/{track_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_track(
-    *,
-    db: Session = Depends(get_db),
-    track_id: int,
-    current_user: User = Depends(get_current_admin_user),
-) -> None:
-    """
-    Delete track (admin only)
-    """
-    # Get track
-    track = db.query(Track).filter(Track.id == track_id).first()
-    if not track:
-        raise HTTPException(status_code=404, detail="Track not found")
-    
-    # Delete files
-    cover_path = os.path.join(settings.MEDIA_ROOT, track.cover_path.replace("/media/", ""))
-    if os.path.exists(cover_path):
-        os.remove(cover_path)
-    
-    audio_path = os.path.join(settings.MEDIA_ROOT, track.audio_path.replace("/media/", ""))
-    if os.path.exists(audio_path):
-        os.remove(audio_path)
-    
-    # Delete track
-    db.delete(track)
-    db.commit()

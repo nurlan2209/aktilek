@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 
 from app.db.models.track import Genre
@@ -39,3 +39,14 @@ class TrackList(BaseModel):
     page: int
     size: int
     pages: int
+    
+# Вспомогательный класс для получения списка жанров
+class GenreList(BaseModel):
+    genres: List[dict]
+    
+    @classmethod
+    def get_all_genres(cls):
+        return cls(genres=[
+            {"value": genre.value, "name": genre.name} 
+            for genre in Genre
+        ])

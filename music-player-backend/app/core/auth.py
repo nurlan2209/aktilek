@@ -12,7 +12,7 @@ from app.db.models.user import User
 from app.schemas.user import TokenPayload
 from app.core.security import verify_password
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/login", auto_error=False)
 
 def authenticate_user(db: Session, username: str, password: str) -> Optional[User]:
     """
@@ -30,49 +30,55 @@ def authenticate_user(db: Session, username: str, password: str) -> Optional[Use
     return user
 
 def get_current_user(
-    db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)
-) -> User:
+    db: Session = Depends(get_db), token: Optional[str] = Depends(oauth2_scheme)
+) -> Optional[User]:
     """
     Get current user from JWT token
     :param db: database session
     :param token: JWT token
-    :return: User object
+    :return: User object or None if not authenticated
     """
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
+    if token is None:
+        return None
+        
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
         token_data = TokenPayload(**payload)
         if token_data.sub is None:
-            raise credentials_exception
+            return None
     except JWTError:
-        raise credentials_exception
+        return None
+    
     user = db.query(User).filter(User.id == token_data.sub).first()
     if user is None:
-        raise credentials_exception
+        return None
     if not user.is_active:
-        raise HTTPException(status_code=400, detail="Inactive user")
+        return None
     return user
 
 def get_current_active_user(
-    current_user: User = Depends(get_current_user),
+    current_user: Optional[User] = Depends(get_current_user),
 ) -> User:
     """
     Get current active user
     :param current_user: current user
     :return: User object if active
     """
+    if current_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        
     if not current_user.is_active:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
 def get_current_admin_user(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_active_user),
 ) -> User:
     """
     Get current admin user
