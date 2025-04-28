@@ -1,7 +1,9 @@
+// src/components/TrackList.jsx
 import React, { useContext, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AudioContext } from '../context/AudioContext';
 import { formatTime } from '../utils/audioUtils';
+import { translateGenre } from '../utils/genreUtils';
 import '../styles/components/TrackList.css';
 
 const TrackList = () => {
@@ -107,7 +109,7 @@ const TrackList = () => {
                   <h4 className="track-name">{track.title}</h4>
                   <p className="track-artist">{track.artist}</p>
                 </div>
-                <span className="track-genre">{track.genre}</span>
+                <span className="track-genre">{translateGenre(track.genre)}</span>
               </motion.div>
             ))}
           </AnimatePresence>

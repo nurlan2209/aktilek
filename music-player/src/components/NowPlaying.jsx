@@ -1,6 +1,8 @@
+// src/components/NowPlaying.jsx
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AudioContext } from '../context/AudioContext';
+import { translateGenre } from '../utils/genreUtils';
 import '../styles/components/NowPlaying.css';
 
 const NowPlaying = () => {
@@ -57,7 +59,7 @@ const NowPlaying = () => {
       >
         <h2 className="track-title">{currentTrack.title}</h2>
         <h3 className="track-artist">{currentTrack.artist}</h3>
-        <span className="track-genre">{currentTrack.genre}</span>
+        <span className="track-genre">{translateGenre(currentTrack.genre)}</span>
       </motion.div>
     </div>
   );

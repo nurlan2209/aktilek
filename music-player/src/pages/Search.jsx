@@ -1,8 +1,10 @@
+// src/pages/Search.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AudioContext } from '../context/AudioContext';
 import { AuthContext } from '../context/AuthContext';
+import { translateGenre } from '../utils/genreUtils';
 import '../styles/pages/Search.css';
 
 const API_URL = 'http://127.0.0.1:8000/api/v1';
@@ -42,7 +44,7 @@ const Search = () => {
       }
       
       const response = await axios.get(url, {
-headers: getAuthHeaders()
+        headers: getAuthHeaders()
       });
       
       if (response.data && response.data.items) {
@@ -115,17 +117,12 @@ headers: getAuthHeaders()
           value={filters.genre}
           disabled={isLoading}
         >
-          <option value="All">All genres</option>
-          <option value="Pop">Pop</option>
-          <option value="Hip-Hop">Hip-Hop</option>
-          <option value="Rock">Rock</option>
-          <option value="Indie">Indie</option>
-          <option value="R&B">R&B</option>
-          <option value="Electronic">Electronic</option>
-          <option value="Jazz">Jazz</option>
-          <option value="Classical">Classical</option>
-          <option value="Folk">Folk</option>
-          <option value="Metal">Metal</option>
+          <option value="All">Все жанры</option>
+          <option value="Pop">Поп</option>
+          <option value="Hip-Hop">Хип-Хоп</option>
+          <option value="Ambient">Ambient</option>
+          <option value="Indie">Инди</option>
+          <option value="Lo-Fi">Lo-Fi</option>
         </select>
       </div>
       
@@ -178,7 +175,7 @@ headers: getAuthHeaders()
                     <p className="track-artist">{track.artist}</p>
                   </div>
                   
-                  <span className="track-genre">{track.genre}</span>
+                  <span className="track-genre">{translateGenre(track.genre)}</span>
                 </motion.div>
               ))}
             </motion.div>

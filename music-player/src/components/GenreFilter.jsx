@@ -1,8 +1,10 @@
+// src/components/GenreFilter.jsx
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { AudioContext } from '../context/AudioContext';
 import { genres } from '../data/tracks';
 import '../styles/components/GenreFilter.css';
+import { translateGenre } from '../utils/genreUtils';
 
 const GenreFilter = () => {
   const { selectedGenre, setSelectedGenre } = useContext(AudioContext);
@@ -28,7 +30,7 @@ const GenreFilter = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            {genre}
+            {translateGenre(genre)}
           </motion.button>
         ))}
       </div>

@@ -280,16 +280,11 @@ const AdminPanel = () => {
             onChange={(e) => setNewTrack({ ...newTrack, genre: e.target.value })}
           >
             <option value="">Выберите жанр</option>
-            <option value="Pop">Pop</option>
-            <option value="Hip-Hop">Hip-Hop</option>
-            <option value="Rock">Rock</option>
-            <option value="Indie">Indie</option>
-            <option value="R&B">R&B</option>
-            <option value="Electronic">Electronic</option>
-            <option value="Jazz">Jazz</option>
-            <option value="Classical">Classical</option>
-            <option value="Folk">Folk</option>
-            <option value="Metal">Metal</option>
+            <option value="Pop">Поп</option>
+            <option value="Hip-Hop">Хип-Хоп</option>
+            <option value="Ambient">Ambient</option>
+            <option value="Indie">Инди</option>
+            <option value="Lo-Fi">Lo-Fi</option>
           </select>
           <div className="file-input">
             <label>Обложка:</label>
@@ -366,16 +361,11 @@ const AdminPanel = () => {
               onChange={(e) => setEditTrack({ ...editTrack, genre: e.target.value })}
             >
               <option value="">Выберите жанр</option>
-              <option value="Pop">Pop</option>
-              <option value="Hip-Hop">Hip-Hop</option>
-              <option value="Rock">Rock</option>
-              <option value="Indie">Indie</option>
-              <option value="R&B">R&B</option>
-              <option value="Electronic">Electronic</option>
-              <option value="Jazz">Jazz</option>
-              <option value="Classical">Classical</option>
-              <option value="Folk">Folk</option>
-              <option value="Metal">Metal</option>
+              <option value="Pop">Поп</option>
+              <option value="Hip-Hop">Хип-Хоп</option>
+              <option value="Ambient">Ambient</option>
+              <option value="Indie">Инди</option>
+              <option value="Lo-Fi">Lo-Fi</option>
             </select>
             <div className="file-input">
               <label>Новая обложка (опционально):</label>
