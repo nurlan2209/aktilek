@@ -1,0 +1,295 @@
+/* Мобильная адаптация для TuneViewer */
+
+/* Основные настройки для всех экранов */
+@media (max-width: 1024px) {
+    .app-container {
+      width: 100%;
+      overflow-x: hidden;
+    }
+    
+    .home {
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+    
+    .section {
+      width: 100%;
+      margin: 0 0 15px 0;
+      max-width: 100%;
+    }
+    
+    .player-section,
+    .library-section,
+    .third-section {
+      height: auto;
+      max-width: 100%;
+      margin: 0 0 15px 0;
+      overflow: visible;
+      width: 300px;
+      margin-left: -50px;
+    }
+  }
+  
+  /* Планшеты */
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 60px;
+      padding: 10px;
+      width: calc(100% - 60px);
+      overflow-x: hidden;
+    }
+    
+    .sidebar {
+      width: 60px;
+      z-index: 1000;
+    }
+    
+    .sidebar-logo {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .nav-item span, 
+    .nav-item_admin span {
+      display: none;
+    }
+    
+    .about, 
+    .search, 
+    .playlists, 
+    .profile {
+      width: 90%;
+      margin-left: 0;
+      max-width: 100%;
+    }
+    
+    .album-cover-container {
+      width: 180px;
+      height: 180px;
+    }
+    
+    .now-playing {
+      align-items: center;
+      width: 250px;
+    }
+    
+    .track-info {
+      text-align: center;
+    }
+    
+    .controls {
+      margin-left: 0;
+      justify-content: center;
+    }
+    
+    .audio-controls-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .reaction-buttons {
+      position: static;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .genres-container {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .genre-button {
+      margin: 5px;
+    }
+    
+    /* Исправления для секций */
+    .player-section,
+    .library-section,
+    .third-section {
+      border-radius: 12px;
+      padding: 15px;
+      box-sizing: border-box;
+    }
+  }
+  
+  /* Мобильные телефоны */
+  @media (max-width: 480px) {
+    .main-content {
+      margin-left: 50px;
+      width: calc(100% - 50px);
+      padding: 5px;
+    }
+    
+    .sidebar {
+      width: 50px;
+    }
+    
+    .album-cover-container {
+      width: 150px;
+      height: 150px;
+    }
+    
+    .control-button {
+      margin: 0 3px;
+    }
+    
+    .control-button.play-pause {
+      width: 45px;
+      height: 45px;
+    }
+    
+    .control-button svg {
+      width: 18px;
+      height: 18px;
+    }
+    
+    .control-button.play-pause svg {
+      width: 22px;
+      height: 22px;
+    }
+    
+    .track-image {
+      width: 45px;
+      height: 45px;
+      min-width: 45px;
+      margin-right: 8px;
+    }
+    
+    .track-name {
+      font-size: 0.85rem;
+    }
+    
+    .track-artist {
+      font-size: 0.75rem;
+    }
+    
+    .track-genre {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+    }
+    
+    /* Исправление громкости */
+    .volume-container {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .volume-slider-container {
+      width: 80px;
+    }
+    
+    /* "Кому тоже нравится" адаптация */
+    .like-minded-container {
+      width: 100%;
+      padding: 10px;
+    }
+    
+    .like-minded-users {
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
+    }
+    
+    .user-name {
+      font-size: 0.7rem;
+      max-width: 60px;
+    }
+    
+    /* Изменение прогресс-бара */
+    .progress-container {
+      align-items: center;
+    }
+    
+    .time {
+      font-size: 0.7rem;
+      width: 35px;
+    }
+    
+    /* Корректировка стилей для вложенных элементов */
+    .track-list-container,
+    .favorites-list-container,
+    .track-reviews-container {
+      max-height: 400px;
+      padding: 0;
+    }
+    
+    /* Плейлисты */
+    .playlists-list {
+      grid-template-columns: 1fr;
+    }
+    
+    /* Поиск */
+    .search-bar {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .search-input, 
+    .genre-filter {
+      width: 100%;
+    }
+  }
+  
+  /* Маленькие экраны */
+  @media (max-width: 320px) {
+    .main-content {
+      margin-left: 45px;
+      width: calc(100% - 45px);
+    }
+    
+    .sidebar {
+      width: 45px;
+    }
+    
+    .album-cover-container {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .volume-slider-container {
+      width: 60px;
+    }
+    
+    .control-button {
+      margin: 0 2px;
+    }
+    
+    .control-button.play-pause {
+      width: 40px;
+      height: 40px;
+    }
+    
+    /* Еще более компактный вид */
+    .reaction-buttons {
+      gap: 8px;
+    }
+    
+    .like-minded-container {
+      padding: 5px;
+    }
+    
+    .like-minded-users {
+      gap: 5px;
+    }
+    
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+      font-size: 12px;
+    }
+  }
