@@ -21,7 +21,7 @@ def upgrade():
         ("lo-fi", "Lo-Fi"),
         # Добавь больше маппингов при необходимости
     ]
-    
+
     # Выполняем SQL для обновления каждого значения
     conn = op.get_bind()
     for old_value, new_value in mappings:

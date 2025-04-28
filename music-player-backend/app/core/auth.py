@@ -40,7 +40,7 @@ def get_current_user(
     """
     if token is None:
         return None
-        
+
     try:
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
@@ -50,7 +50,7 @@ def get_current_user(
             return None
     except JWTError:
         return None
-    
+
     user = db.query(User).filter(User.id == token_data.sub).first()
     if user is None:
         return None
