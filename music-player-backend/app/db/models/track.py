@@ -17,19 +17,26 @@ class Genre(str, enum.Enum):
         """Convert string to Genre enum"""
         if string_value is None:
             return None
-            
-        normalized = string_value.lower().replace(' ', '').replace('-', '')
         
+        # Попытка прямого совпадения
         for genre in cls:
-            if genre.name.lower() == normalized or genre.value.lower().replace(' ', '').replace('-', '') == normalized:
+            if genre.value == string_value:
+                return genre
+        
+        # Попытка совпадения без учета регистра
+        lower_value = string_value.lower()
+        for genre in cls:
+            if genre.value.lower() == lower_value:
                 return genre
                 
-        # If no match found, try to match by name without considering case or separators
+        # Попытка совпадения части строки
         for genre in cls:
-            if normalized in genre.name.lower() or normalized in genre.value.lower().replace(' ', '').replace('-', ''):
+            if lower_value in genre.value.lower() or genre.value.lower() in lower_value:
                 return genre
                 
-        raise ValueError(f"Unknown genre: {string_value}")
+        # Если не найдено совпадений, вывести информацию о допустимых значениях
+        valid_values = [g.value for g in cls]
+        raise ValueError(f"Неизвестный жанр: {string_value}. Допустимые значения: {', '.join(valid_values)}")
 
 class Track(Base, BaseModel):
     __tablename__ = "tracks"

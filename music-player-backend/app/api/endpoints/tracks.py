@@ -39,10 +39,13 @@ def get_tracks(
 
     if genre:
         try:
-            # Используем новый метод для преобразования строки в жанр
+            # Try to convert string to Genre enum
             genre_enum = Genre.from_string(genre)
             query = query.filter(Track.genre == genre_enum)
-        except (KeyError, ValueError):
+        except (KeyError, ValueError) as e:
+            # Log the error
+            print(f"Invalid genre filter: {e}")
+            # Return empty result instead of crashing
             return {
                 "items": [],
                 "total": 0,
@@ -60,11 +63,11 @@ def get_tracks(
             (Track.artist.ilike(f"%{search}%"))
         )
 
+    # Get total count for pagination
     total = query.count()
 
-    query = query.offset((page - 1) * size).limit(size)
-
-    tracks = query.all()
+    # Apply pagination
+    tracks = query.offset((page - 1) * size).limit(size).all()
 
     return {
         "items": tracks,
