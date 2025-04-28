@@ -13,7 +13,7 @@ https://www.python.org/downloads/release/python-3110/
 cd music-player-backend
 ```
 
-# Создать виртуальное окружение (опционально, но рекомендуется)
+# Создать виртуальное окружение ( !!! НЕ 13 версия пайтона )
 ```bash
 python -m venv venv
 source venv/bin/activate  # На Windows: venv\Scripts\activate
@@ -25,6 +25,18 @@ pip install -r requirements.txt
 ```
 
 # Настроить базу данных и выполнить миграции
+
+# 1
+```bash
+alembic stamp head
+```
+
+# 2
+```bash
+alembic revision --autogenerate -m "Initial migration"
+```
+
+# 3
 ```bash
 alembic upgrade head
 ```
@@ -33,6 +45,13 @@ alembic upgrade head
 ```bash
 uvicorn app.main:app --reload
 ```
+
+
+## для получения роли администратора можно запустить файл python setrole.py
+```bash
+python setrole.py
+```
+# Он автоматически изменить роль на адмиситратора пользователя под id = 1
 
 ## Запуск фронтенда:
 # Перейти в директорию фронтенда
