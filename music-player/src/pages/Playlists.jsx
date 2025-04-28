@@ -65,12 +65,12 @@ const Playlists = () => {
       if (response.data && response.data.items) {
         setPlaylists(response.data.items);
       } else {
-        console.error('Unexpected API response format:', response.data);
-        setError('Received unexpected data format from the server');
+        console.error('Неожиданный формат ответа API:', response.data);
+        setError('Получен неожиданный формат данных с сервера');
       }
     } catch (err) {
-      console.error('Failed to fetch playlists:', err);
-      setError('Failed to load playlists');
+      console.error('Не удалось получить списки воспроизведения:', err);
+      setError('Не удалось загрузить списки воспроизведения');
     } finally {
       setIsLoading(false);
     }
@@ -90,7 +90,7 @@ const Playlists = () => {
         setFilteredTracks(response.data.items);
       }
     } catch (err) {
-      console.error('Failed to fetch tracks:', err);
+      console.error('Не удалось получить треки:', err);
     }
   };
 
@@ -106,8 +106,8 @@ const Playlists = () => {
       
       setSelectedPlaylist(response.data);
     } catch (err) {
-      console.error('Failed to fetch playlist details:', err);
-      setError('Failed to load playlist details');
+      console.error('Не удалось получить подробную информацию о плейлисте:', err);
+      setError('Не удалось загрузить сведения о списке воспроизведения');
     } finally {
       setIsLoading(false);
     }
@@ -116,12 +116,12 @@ const Playlists = () => {
   // Create new playlist
   const handleCreatePlaylist = async () => {
     if (!user.isAuthenticated) {
-      setError('Please log in to create playlists');
+      setError('Пожалуйста, войдите в систему, чтобы создавать плейлисты');
       return;
     }
     
     if (!newPlaylistName.trim()) {
-      setError('Please enter a playlist name');
+      setError('Пожалуйста, введите название плейлиста');
       return;
     }
     
@@ -150,8 +150,8 @@ const Playlists = () => {
       setNewPlaylistIsPublic(true);
       fetchPlaylists();
     } catch (err) {
-      console.error('Failed to create playlist:', err);
-      setError('Failed to create playlist. Please try again.');
+      console.error('Не удалось создать список воспроизведения:', err);
+      setError('Не удалось создать список воспроизведения. Пожалуйста, попробуйте снова.');
     } finally {
       setIsLoading(false);
     }
@@ -176,8 +176,8 @@ const Playlists = () => {
       // Refresh playlists
       fetchPlaylists();
     } catch (err) {
-      console.error('Failed to delete playlist:', err);
-      setError('Failed to delete playlist');
+      console.error('Не удалось удалить плейлист:', err);
+      setError('Не удалось удалить плейлист');
     } finally {
       setDeletingPlaylist(false);
     }
@@ -196,8 +196,8 @@ const Playlists = () => {
       // Refresh playlist details
       fetchPlaylistDetails(selectedPlaylist.id);
     } catch (err) {
-      console.error('Failed to add track to playlist:', err);
-      setError('Failed to add track to playlist');
+      console.error('Не удалось добавить трек в плейлист:', err);
+      setError('Не удалось добавить трек в плейлист');
     }
   };
 
@@ -213,8 +213,8 @@ const Playlists = () => {
       // Refresh playlist details
       fetchPlaylistDetails(selectedPlaylist.id);
     } catch (err) {
-      console.error('Failed to remove track from playlist:', err);
-      setError('Failed to remove track from playlist');
+      console.error('Не удалось удалить трек из плейлиста:', err);
+      setError('Не удалось удалить трек из плейлиста');
     }
   };
 
@@ -277,7 +277,7 @@ const Playlists = () => {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
             </svg>
-            Back to playlists
+            Вернуться к плейлистам
           </button>
           <div className="playlist-header-actions">
             <h2 className="playlist-title">{selectedPlaylist.name}</h2>
@@ -286,7 +286,7 @@ const Playlists = () => {
               onClick={() => handleDeletePlaylist(selectedPlaylist.id)}
               disabled={deletingPlaylist}
             >
-              {deletingPlaylist ? 'Deleting...' : 'Delete Playlist'}
+              {deletingPlaylist ? 'Удаление...' : 'Удалить плейлист'}
             </button>
           </div>
           <p className="playlist-description">{selectedPlaylist.description}</p>
@@ -294,7 +294,7 @@ const Playlists = () => {
         
         <div className="playlist-content">
           <div className="playlist-tracks">
-            <h3>Playlist Tracks</h3>
+            <h3>Треки из плейлист</h3>
             {selectedPlaylist.tracks && selectedPlaylist.tracks.length > 0 ? (
               <motion.div 
                 className="tracks-list"
@@ -349,12 +349,12 @@ const Playlists = () => {
                 ))}
               </motion.div>
             ) : (
-              <p className="empty-message">This playlist has no tracks yet</p>
+              <p className="empty-message">В этом плейлисте пока нет треков</p>
             )}
           </div>
           
           <div className="add-tracks-section">
-            <h3>Add Tracks</h3>
+            <h3>Добавление треков</h3>
             <input
               type="text"
               placeholder="Search tracks..."
@@ -389,7 +389,7 @@ const Playlists = () => {
                   </div>
                 ))
               ) : (
-                <p className="empty-message">No tracks found</p>
+                <p className="empty-message">Никаких треков обнаружено не было</p>
               )}
             </div>
           </div>
@@ -401,19 +401,19 @@ const Playlists = () => {
   // Render playlists list
   return (
     <div className="playlists">
-      <h2 className="playlists-title">My Playlists</h2>
+      <h2 className="playlists-title">Мои плейлисты</h2>
       
       <div className="create-playlist-form">
-        <h3>Create New Playlist</h3>
+        <h3>Создайте новый плейлист</h3>
         <input
           type="text"
-          placeholder="Playlist name"
+          placeholder="Название плейлиста"
           value={newPlaylistName}
           onChange={(e) => setNewPlaylistName(e.target.value)}
           className="playlist-input"
         />
         <textarea
-          placeholder="Description (optional)"
+          placeholder="Описание (необязательно)"
           value={newPlaylistDescription}
           onChange={(e) => setNewPlaylistDescription(e.target.value)}
           className="playlist-textarea"
@@ -426,7 +426,7 @@ const Playlists = () => {
               checked={newPlaylistIsPublic}
               onChange={(e) => setNewPlaylistIsPublic(e.target.checked)}
             />
-            Make playlist public
+            Сделайте плейлист общедоступным
           </label>
         </div>
         <button 
@@ -434,19 +434,19 @@ const Playlists = () => {
           onClick={handleCreatePlaylist}
           disabled={isLoading || !newPlaylistName.trim()}
         >
-          {isLoading ? 'Creating...' : 'Create Playlist'}
+          {isLoading ? 'Создание...' : 'Создать плейлист'}
         </button>
         
         {error && <p className="error-message">{error}</p>}
       </div>
       
       <div className="playlists-list-container">
-        <h3>Your Playlists</h3>
+        <h3>Ваши плейлисты</h3>
         
-        {isLoading && <p className="loading-message">Loading playlists...</p>}
+        {isLoading && <p className="loading-message">Загрузка списков воспроизведения...</p>}
         
         {playlists.length === 0 && !isLoading ? (
-          <p className="empty-message">You don't have any playlists yet</p>
+          <p className="empty-message">У вас еще нет никаких плейлистов</p>
         ) : (
           <motion.div 
             className="playlists-list"

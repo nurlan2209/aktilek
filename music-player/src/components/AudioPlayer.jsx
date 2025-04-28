@@ -6,7 +6,6 @@ import ProgressBar from './ProgressBar';
 import VolumeControl from './VolumeControl';
 import FavoriteButton from './FavoriteButton';
 import DislikeButton from './DislikeButton';
-import LikeMindedUsers from './LikeMindedUsers';
 import '../styles/components/AudioPlayer.css';
 
 const AudioPlayer = () => {
@@ -30,7 +29,6 @@ const AudioPlayer = () => {
             </div>
           </div>
           <VolumeControl />
-          <LikeMindedUsers />
         </>
       ) : (
         <div className="no-track-selected">

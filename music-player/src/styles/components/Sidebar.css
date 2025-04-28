@@ -1,128 +1,131 @@
+/* Обновленный CSS для сайдбара с эффектом наведения */
 .sidebar {
-    width: 100px;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 1rem 0;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    backdrop-filter: blur(10px);
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    transition: width 0.3s ease;
+  width: 60px; /* Уменьшаем начальную ширину */
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem 0;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: width 0.3s ease; /* Плавный переход при изменении ширины */
+}
+
+.sidebar:hover {
+  width: 180px; /* Увеличиваем ширину при наведении */
+}
+
+.sidebar-logo {
+  font-size: 1.5rem;
+  color: #8257e6;
+  margin-bottom: 2rem;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-item, .nav-item_admin {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Выравнивание по левому краю */
+  width: 100%;
+  padding: 1rem;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s, background-color 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before, .nav-item_admin::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: #8257e6;
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::before, .nav-item_admin:hover::before,
+.nav-item.active::before, .nav-item_admin.active::before {
+  width: 100%;
+}
+
+.nav-item.active, .nav-item_admin.active {
+  color: #8257e6;
+  background: rgba(130, 87, 230, 0.1);
+}
+
+.nav-item:hover, .nav-item_admin:hover {
+  color: #8257e6;
+}
+
+.nav-item i, .nav-item_admin i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  margin-right: 12px;
+}
+
+.nav-item span, .nav-item_admin span {
+  opacity: 0; /* Изначально текст невидим */
+  transform: translateX(-20px); /* Смещение для анимации */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Плавный переход */
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidebar:hover .nav-item span, .sidebar:hover .nav-item_admin span {
+  opacity: 1; /* Текст становится видимым при наведении */
+  transform: translateX(0); /* Возвращаем в нормальное положение */
+  width: auto; /* Возвращаем ширину */
+}
+
+/* Корректировка для главного контента */
+.main-content {
+  margin-left: 60px; /* Соответствует начальной ширине сайдбара */
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 180px; /* Соответствует расширенной ширине сайдбара */
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 50px;
   }
   
   .sidebar:hover {
-    width: 200px;
+    width: 150px;
   }
   
-  .sidebar-logo {
-    font-size: 1.5rem;
-    color: #8257e6;
-    margin-bottom: 2rem;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    white-space: nowrap;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+  .main-content {
+    margin-left: 50px;
   }
   
-  .sidebar-nav {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  .sidebar:hover ~ .main-content {
+    margin-left: 50px; /* Не изменяем отступ на мобильных устройствах */
   }
-  
-  .nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 1rem 0;
-    color: #555;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s, background-color 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .nav-item::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background: #8257e6;
-    transition: width 0.3s ease;
-  }
-  
-  .nav-item:hover::before,
-  .nav-item.active::before {
-    width: 100%;
-  }
-  
-  .nav-item.active {
-    color: #8257e6;
-    background: rgba(130, 87, 230, 0.1);
-  }
-  
-  .nav-item:hover {
-    color: #8257e6;
-  }
-  
-  .nav-item span {
-    margin-left: 10px;
-    opacity: 1; /* Текст виден сразу */
-  }
-
-  .nav-item_admin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 1rem 0;
-    color: #555;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s, background-color 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .nav-item_admin::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background: #8257e6;
-    transition: width 0.3s ease;
-  }
-  
-  .nav-item_admin:hover::before,
-  .nav-item_admin.active::before {
-    width: 100%;
-  }
-  
-  .nav-item_admin.active {
-    color: #8257e6;
-    background: rgba(130, 87, 230, 0.1);
-  }
-  
-  .nav-item_admin:hover {
-    color: #8257e6;
-  }
-  
-  .nav-item_admin span {
-    margin-left: 25px;
-    opacity: 1; /* Текст виден сразу */
-  }
+}

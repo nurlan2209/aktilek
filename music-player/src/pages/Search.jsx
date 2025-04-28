@@ -48,11 +48,11 @@ headers: getAuthHeaders()
       if (response.data && response.data.items) {
         setSearchResults(response.data.items);
       } else {
-        setError('Unexpected response format');
+        setError('Неожиданный формат ответа');
       }
     } catch (err) {
-      console.error('Search error:', err);
-      setError('Failed to search for tracks');
+      console.error('Ошибка поиска:', err);
+      setError('Не удалось выполнить поиск треков');
     } finally {
       setIsLoading(false);
     }
@@ -99,13 +99,13 @@ headers: getAuthHeaders()
 
   return (
     <div className="search">
-      <h2 className="search-title">Search</h2>
+      <h2 className="search-title">Поиск</h2>
       <div className="search-bar">
         <input
           type="text"
           value={query}
           onChange={handleSearch}
-          placeholder="Enter track, artist or genre..."
+          placeholder="Введите трек, исполнителя или жанр..."
           className="search-input"
           disabled={isLoading}
         />
@@ -130,12 +130,12 @@ headers: getAuthHeaders()
       </div>
       
       <div className="search-results">
-        {isLoading && <p className="loading-message">Loading...</p>}
+        {isLoading && <p className="loading-message">Загрузка...</p>}
         
         {error && <p className="error-message">{error}</p>}
         
         {searchResults.length === 0 && !isLoading && query && (
-          <p className="no-results">No results found</p>
+          <p className="no-results">Никаких результатов найдено не было</p>
         )}
         
         <AnimatePresence>

@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext';
+import '../styles/pages/Profile.css';
 
 const Profile = () => {
   const { user, login, register, logout, updateProfile, error, setError, isLoading } = useContext(AuthContext);
